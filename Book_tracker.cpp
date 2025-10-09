@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 
 using namespace std;
 
@@ -118,6 +119,24 @@ int write_txt()
     return 0;
 }
 // Вывод книг по команде 1
+
+void print_str(char *s, int lim)
+{
+    int i = 0;
+    while (i < lim)
+    {
+        if ((int)s[i] != 0)
+        {
+            cout << s[i];
+        }
+        else
+        {
+            cout << ' ';
+        }
+        i++;
+    }
+}
+
 void print_all()
 {
     if (s == 0)
@@ -126,15 +145,18 @@ void print_all()
         return;
     }
     cout << "Название : Автор : Год прочтения : Оценка" << endl;
+    cout << "=========================================" << endl;
     for (int i = 0; i < s; i++)
     {
-        cout << books[i].name << '\t' << books[i].author << '\t' << books[i].yread << '\t' << books[i].grade << endl;
+        cout << left << setw(30) << books[i].name << setw(50) << books[i].author << setw(20) << books[i].yread << setw(4) << books[i].grade << "\n";
     }
+    cout << "=========================================" << endl;
 }
 
 // Добавить книгу по команде 2
 void add_book()
 {
+    cout << "<------------------------------->" << endl;
     cout << "Введите название книги: ";
     cin >> books[s].name;
     cout << "Введите автора: ";
@@ -144,11 +166,13 @@ void add_book()
     cout << "Введите оценку (0-10): ";
     cin >> books[s].grade;
     ++s;
+    cout << "<------------------------------->" << endl;
 }
 
 // Вывести статистику по команде 3
 void show_stat()
 {
+    cout << "<------------------------------->" << endl;
     printf("Прочитано книг: %d\n", s);
     float sum = 0;
     int max_ind = 0;
@@ -162,19 +186,20 @@ void show_stat()
     }
     printf("Средняя оценка: %f\n", sum / s);
     printf("Самая высоко оцененная книга: %s\n Автор: %s\n Год прочтения: %d\n Оценка: %.1f\n", books[max_ind].name, books[max_ind].author, books[max_ind].yread, books[max_ind].grade);
+    cout << "<------------------------------->" << endl;
 }
 
 // Редактор книг
 void run()
 {
-    cout << "====== Трекер книг =====" << endl;
-    cout << "1. Вывести книги" << endl;
-    cout << "2. Добавить книгу" << endl;
-    cout << "3. Показать статистику" << endl;
-    cout << "4. Выход" << endl;
+    setlocale(LC_ALL, "");
     int c;
     while (true)
     {
+        cout << "1. Вывести книги" << endl;
+        cout << "2. Добавить книгу" << endl;
+        cout << "3. Показать статистику" << endl;
+        cout << "4. Выход" << endl;
         cout << "Введите номер команды: ";
         cin >> c;
         switch (c)
