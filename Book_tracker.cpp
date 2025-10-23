@@ -137,6 +137,34 @@ void print_str(char *s, int lim)
     }
 }
 
+// Функция для вычисления видимой длины UTF-8 строки
+int utf8_strlen(const char *str)
+{
+    int len = 0;
+    while (*str)
+    {
+        if ((*str & 0xC0) != 0x80)
+        {
+            len++;
+        }
+        str++;
+    }
+    return len;
+}
+
+// Функция для вывода строки с выравниванием для UTF-8
+void print_utf8_aligned(const char *str, int width)
+{
+    int visible_len = utf8_strlen(str);
+    cout << str;
+    // Добавляем пробелы для выравнивания
+    for (int i = visible_len; i < width; i++)
+    {
+        cout << ' ';
+    }
+}
+
+// В функции print_all() замените вывод:
 void print_all()
 {
     if (s == 0)
@@ -144,13 +172,23 @@ void print_all()
         cout << "Список пуст" << endl;
         return;
     }
-    cout << "Название : Автор : Год прочтения : Оценка" << endl;
-    cout << "=========================================" << endl;
+
+    print_utf8_aligned("Название", 61);
+    print_utf8_aligned("Автор", 37);
+    print_utf8_aligned("Год прочтения", 18);
+    cout << "Оценка" << endl;
+    cout << "===========================================================================================================================" << endl;
+
     for (int i = 0; i < s; i++)
     {
-        cout << left << setw(30) << books[i].name << setw(50) << books[i].author << setw(20) << books[i].yread << setw(4) << books[i].grade << "\n";
+        print_utf8_aligned(books[i].name, 60);
+        cout << " ";
+        print_utf8_aligned(books[i].author, 40);
+        cout << " ";
+        cout << left << setw(15) << books[i].yread << " ";
+        cout << fixed << setprecision(1) << books[i].grade << "\n";
     }
-    cout << "=========================================" << endl;
+    cout << "===========================================================================================================================" << endl;
 }
 
 // Добавить книгу по команде 2
